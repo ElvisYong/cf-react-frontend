@@ -2,12 +2,10 @@ import React from "react";
 import {
   Grid,
   Input,
-  Dropdown,
   Form,
+  Dropdown,
   Button,
-  Label,
-  Container,
-  Segment
+  Divider
 } from "semantic-ui-react";
 
 export default class Person extends React.Component {
@@ -128,80 +126,83 @@ export default class Person extends React.Component {
 
   render() {
     return (
-      <Grid centered columns={1}>
-        <div>
-          <Grid.Row>
-            <Dropdown
-              placeholder="Select person group"
-              search
-              selection
-              fluid
-              options={this.state.person_group_list}
-              value={this.state.person_group_id}
-              onChange={this.handlePersonGroupChange}
-            />
-          </Grid.Row>
-          <Grid.Row>
-            <Input
-              label="Create person name"
-              type="text"
-              fluid
-              value={this.state.personName}
-              onChange={event => {
-                this.setState({ personName: event.target.value });
-              }}
-              action={{
-                content: "Create",
-                color: "teal",
-                onClick: this.createPersonHandler
-              }}
-            />
-          </Grid.Row>
-          <Grid.Row>
-            <Dropdown
-              placeholder="Select person for upload"
-              search
-              selection
-              fluid
-              options={this.state.person_list}
-              value={this.state.person_id_create}
-              onChange={(event, data) => {
-                this.setState({ person_id_create: data.value });
-              }}
-            />
-          </Grid.Row>
-
-          <Grid.Row>
-            <Input
-              label="Upload photo"
-              type="file"
-              fluid
-              onChange={this.fileChangedHandler}
-              action={{
-                content: "Upload",
-                color: "teal",
-                onClick: this.fileUploadHandler
-              }}
-            />
-          </Grid.Row>
-
-          <Grid.Row>
-            <Dropdown
-              placeholder="Select person for delete"
-              search
-              selection
-              fluid
-              options={this.state.person_list}
-              value={this.state.person_id_delete}
-              onChange={(event, data) => {
-                this.setState({ person_id_delete: data.value });
-              }}
-            />
-          </Grid.Row>
-          <Button color="red" onClick={this.deletePersonHandler}>
-            Delete person
-          </Button>
-        </div>
+      <Grid centered columns={2}>
+        <Grid.Column centered>
+          <Form>
+            <Form.Field>
+              <label>Select person group</label>
+              <Dropdown
+                placeholder="Select person group"
+                search
+                selection
+                fluid
+                options={this.state.person_group_list}
+                value={this.state.person_group_id}
+                onChange={this.handlePersonGroupChange}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Input
+                label="Create person name"
+                type="text"
+                fluid
+                value={this.state.personName}
+                onChange={event => {
+                  this.setState({ personName: event.target.value });
+                }}
+                action={{
+                  content: "Create",
+                  color: "teal",
+                  onClick: this.createPersonHandler
+                }}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Select person for upload</label>
+              <Dropdown
+                placeholder="Select person for upload"
+                search
+                selection
+                fluid
+                options={this.state.person_list}
+                value={this.state.person_id_create}
+                onChange={(event, data) => {
+                  this.setState({ person_id_create: data.value });
+                }}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Input
+                label="Upload photo"
+                type="file"
+                fluid
+                onChange={this.fileChangedHandler}
+                action={{
+                  content: "Upload",
+                  color: "teal",
+                  onClick: this.fileUploadHandler
+                }}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Select person for delete</label>
+              <Dropdown
+                placeholder="Select person for delete"
+                search
+                selection
+                fluid
+                options={this.state.person_list}
+                value={this.state.person_id_delete}
+                onChange={(event, data) => {
+                  this.setState({ person_id_delete: data.value });
+                }}
+              />
+            </Form.Field>
+            <Button color="red" onClick={this.deletePersonHandler}>
+              Delete person
+            </Button>
+          </Form>
+        </Grid.Column>
       </Grid>
     );
   }

@@ -1,13 +1,15 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
+import Person from "./Person";
+import PersonGroup from "./PersonGroup";
 
 export default class NavigationBar extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      activeItem: "home"
+      activeItem: "person_group"
     };
   }
   handleChange = (event, { name }) => {
@@ -18,19 +20,31 @@ export default class NavigationBar extends React.Component {
 
   render() {
     return (
-      <Router>
-        <Menu pointing secondary>
-          <Menu.Item name="home" active={this.state.activeItem === "home"} onClick={this.handleChange}>
-            <Link to="/">cf-react-frontend</Link>
+      <Menu pointing secondary>
+        <Link to="/">
+          <Menu.Item name="person_group" onClick={this.handleChange}>
+            cf-react-frontend
           </Menu.Item>
-          <Menu.Item name="person_group" active={this.state.activeItem === "person_group"} onClick={this.handleChange}>
-            <Link to="/person_group">Person group</Link>
+        </Link>
+        <Link to="/person_group">
+          <Menu.Item
+            name="person_group"
+            active={this.state.activeItem === "person_group"}
+            onClick={this.handleChange}
+          >
+            Person group
           </Menu.Item>
-          <Menu.Item name="person" active={this.state.activeItem === "person"} onClick={this.handleChange}>
-            <Link to="/person">Person</Link>
+        </Link>
+        <Link to="/person">
+          <Menu.Item
+            name="person"
+            active={this.state.activeItem === "person"}
+            onClick={this.handleChange}
+          >
+            Person
           </Menu.Item>
-        </Menu>
-      </Router>
+        </Link>
+      </Menu>
     );
   }
 }
