@@ -44,7 +44,7 @@ export default class Face extends React.Component {
 
     const content = await response.json();
     if (content) {
-      alert("Picture taken, you are: " + content.name);
+      alert("Picture taken, you are: " + content);
     }
   }
 
