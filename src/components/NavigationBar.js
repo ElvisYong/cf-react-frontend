@@ -44,6 +44,15 @@ export default class NavigationBar extends React.Component {
             Person
           </Menu.Item>
         </Link>
+        <Link to="/face">
+          <Menu.Item
+            name="face"
+            active={this.state.activeItem === "face"}
+            onClick={this.handleChange}
+          >
+            Face
+          </Menu.Item>
+        </Link>
       </Menu>
     );
   }
