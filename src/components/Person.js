@@ -118,11 +118,8 @@ export default class Person extends React.Component {
   };
 
   async fileUploadHandler() {
-    let fileName = this.state.selectedFile.name.replace(/\.[^/.]+$/, "");
-
     let formData = new FormData();
     formData.append("file", this.state.selectedFile);
-    formData.append("fileName", fileName);
     formData.append("person_group_id", this.state.person_group_id_upload);
     formData.append("person_id", this.state.person_id_upload);
 
