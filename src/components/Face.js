@@ -10,7 +10,7 @@ export default class Face extends React.Component {
       person_group_id: ""
     };
 
-    this.onClickHandler = this.onClickHandler.bind();
+    this.onClickHandler = this.onClickHandler.bind(this);
   }
 
   componentDidMount() {
@@ -34,6 +34,9 @@ export default class Face extends React.Component {
   async onClickHandler() {
     const response = await fetch("http://127.0.0.1:5000/face", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         person_group_id: this.state.person_group_id
       })
@@ -60,7 +63,9 @@ export default class Face extends React.Component {
                 options={this.state.person_group_list}
                 value={this.state.person_group_id}
                 onChange={(event, data) => {
-                  this.setState({ person_group_id: data.value });
+                  this.setState({
+                    person_group_id: data.value
+                  });
                 }}
               />
             </Form.Field>
