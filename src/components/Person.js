@@ -139,7 +139,7 @@ export default class Person extends React.Component {
     formData.append("person_group_id", this.state.person_group_id_upload);
     formData.append("person_id", this.state.person_id_create);
 
-    const response = await fetch("http://127.0.0.1:5000/face_pi", {
+    const response = await fetch("http://127.0.0.1:5000/person_pi", {
       method: "POST",
       body: formData
     });
