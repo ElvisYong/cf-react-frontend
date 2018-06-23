@@ -14,18 +14,27 @@ export default class Person extends React.Component {
 
     this.state = {
       person_group_list: [],
-      person_list: [],
-      person_group_id: "",
+      person_group_id_create: "",
+      person_group_id_upload: "",
+      person_group_id_delete: "",
       personName: "",
-      person_id_create: "",
+      person_id_upload: "",
       person_id_delete: "",
-      selectedFile: null
+      selectedFile: null,
+      person_list: []
     };
 
     this.fileUploadHandler = this.fileUploadHandler.bind(this);
+    this.piCamUploadHandler = this.piCamUploadHandler.bind(this);
+    // this.multipleFileUploadHandler = this.multipleFileUploadHandler.bind(this);
     this.createPersonHandler = this.createPersonHandler.bind(this);
-    this.handlePersonGroupChange = this.handlePersonGroupChange.bind(this);
     this.deletePersonHandler = this.deletePersonHandler.bind(this);
+    this.uploadPersonGroupChangeHandler = this.uploadPersonGroupChangeHandler.bind(
+      this
+    );
+    this.deletePersonGroupChangeHandler = this.deletePersonGroupChangeHandler.bind(
+      this
+    );
   }
 
   componentDidMount() {
@@ -45,11 +54,31 @@ export default class Person extends React.Component {
         });
       });
   }
-  async handlePersonGroupChange(event, data) {
-    await this.setState({ person_group_id: data.value });
+
+  async deletePersonGroupChangeHandler(event, data) {
+    await this.setState({ person_group_id_delete: data.value });
 
     const response = await fetch(
-      "http://127.0.0.1:5000/person_list/" + this.state.person_group_id
+      "http://127.0.0.1:5000/person_list/" + this.state.person_group_id_delete
+    );
+    response.json().then(responseData => {
+      let list = new Array();
+      responseData.forEach(obj => {
+        let text = obj.name;
+        let value = obj.personId;
+        list.push({ text: text, value: value });
+      });
+      this.setState({
+        person_list: list
+      });
+    });
+  }
+
+  async uploadPersonGroupChangeHandler(event, data) {
+    await this.setState({ person_group_id_upload: data.value });
+
+    const response = await fetch(
+      "http://127.0.0.1:5000/person_list/" + this.state.person_group_id_upload
     );
     response.json().then(responseData => {
       let list = new Array();
@@ -71,7 +100,7 @@ export default class Person extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        person_group_id: this.state.person_group_id,
+        person_group_id: this.state.person_group_id_create,
         name: this.state.personName
       })
     });
@@ -88,24 +117,44 @@ export default class Person extends React.Component {
     });
   };
 
-  async fileUploadHandler(event) {
+  async fileUploadHandler() {
     let fileName = this.state.selectedFile.name.replace(/\.[^/.]+$/, "");
 
     let formData = new FormData();
     formData.append("file", this.state.selectedFile);
     formData.append("fileName", fileName);
-    formData.append("person_group_id", this.state.person_group_id);
-    formData.append("person_id", this.state.person_id_create);
+    formData.append("person_group_id", this.state.person_group_id_upload);
+    formData.append("person_id", this.state.person_id_upload);
 
     const response = await fetch("http://127.0.0.1:5000/person", {
       method: "POST",
       body: formData
     });
     const content = await response.json();
-    if (content) {
-      alert("Uploaded image");
-    }
+    alert(content);
   }
+
+  async piCamUploadHandler() {
+    let formData = new FormData();
+    formData.append("person_group_id", this.state.person_group_id_upload);
+    formData.append("person_id", this.state.person_id_create);
+
+    const response = await fetch("http://127.0.0.1:5000/face_pi", {
+      method: "POST",
+      body: formData
+    });
+    const content = await response.json();
+    alert(content);
+  }
+
+  // upload directory if theres time
+  // async multipleFileUploadHandler(event) {
+  //   let formData = new FormData();
+
+  //   formData.append("files[]", this.state.selectedFile);
+  //   formData.append("person_group_id", this.state.person_group_id_upload);
+  //   formData.append("person_id", this.state.person_id_create);
+  // }
 
   async deletePersonHandler(event) {
     const response = await fetch("http://127.0.0.1:5000/person", {
@@ -114,14 +163,12 @@ export default class Person extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        person_group_id: this.state.person_group_id,
+        person_group_id: this.state.person_group_id_delete,
         person_id: this.state.person_id_delete
       })
     });
     const content = await response.json();
-    if (content) {
-      alert("Deleted person");
-    }
+    return content;
   }
 
   render() {
@@ -129,16 +176,20 @@ export default class Person extends React.Component {
       <Grid centered columns={2}>
         <Grid.Column centered>
           <Form>
+            <label>Create person</label>
             <Form.Field>
-              <label>Select person group</label>
               <Dropdown
                 placeholder="Select person group"
                 search
                 selection
                 fluid
                 options={this.state.person_group_list}
-                value={this.state.person_group_id}
-                onChange={this.handlePersonGroupChange}
+                value={this.state.person_group_id_create}
+                onChange={(event, data) => {
+                  this.setState({
+                    person_group_id_create: data.value
+                  });
+                }}
               />
             </Form.Field>
             <Form.Field>
@@ -157,17 +208,31 @@ export default class Person extends React.Component {
                 }}
               />
             </Form.Field>
+          </Form>
+          <Divider />
+          <Form>
+            <label>Select person for upload</label>
             <Form.Field>
-              <label>Select person for upload</label>
+              <Dropdown
+                placeholder="Select person group"
+                search
+                selection
+                fluid
+                options={this.state.person_group_list}
+                value={this.state.person_group_id_upload}
+                onChange={this.uploadPersonGroupChangeHandler}
+              />
+            </Form.Field>
+            <Form.Field>
               <Dropdown
                 placeholder="Select person for upload"
                 search
                 selection
                 fluid
                 options={this.state.person_list}
-                value={this.state.person_id_create}
+                value={this.state.person_id_upload}
                 onChange={(event, data) => {
-                  this.setState({ person_id_create: data.value });
+                  this.setState({ person_id_upload: data.value });
                 }}
               />
             </Form.Field>
@@ -182,6 +247,44 @@ export default class Person extends React.Component {
                   color: "teal",
                   onClick: this.fileUploadHandler
                 }}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Click this take photo using picam and upload</label>
+              <Button onClick={this.piCamUploadHandler} color="teal">
+                TAKE PHOTO
+              </Button>
+            </Form.Field>
+            {/* Will do upload directory if there's time */}
+            {/* <Form.Field>
+              <input
+                label="Upload directory"
+                type="file"
+                fluid
+                webkitdirectory
+                directory
+                multiple
+                onChange={this.fileChangedHandler}
+                action={{
+                  content: "Upload",
+                  color: "teal",
+                  onClick: this.multipleFileUploadHandler
+                }}
+              />
+            </Form.Field> */}
+          </Form>
+          <Divider />
+          <Form>
+            <label>Delete person</label>
+            <Form.Field>
+              <Dropdown
+                placeholder="Select person group"
+                search
+                selection
+                fluid
+                options={this.state.person_group_list}
+                value={this.state.person_group_id_delete}
+                onChange={this.deletePersonGroupChangeHandler}
               />
             </Form.Field>
             <Form.Field>

@@ -12,6 +12,7 @@ export default class NavigationBar extends React.Component {
       activeItem: "person_group"
     };
   }
+
   handleChange = (event, { name }) => {
     this.setState({
       activeItem: name
@@ -44,13 +45,22 @@ export default class NavigationBar extends React.Component {
             Person
           </Menu.Item>
         </Link>
+        <Link to="/train">
+          <Menu.Item
+            name="train"
+            active={this.state.activeItem === "train"}
+            onClick={this.handleChange}
+          >
+            Train
+          </Menu.Item>
+        </Link>
         <Link to="/face">
           <Menu.Item
             name="face"
             active={this.state.activeItem === "face"}
             onClick={this.handleChange}
           >
-            Face
+          Scan face
           </Menu.Item>
         </Link>
       </Menu>
