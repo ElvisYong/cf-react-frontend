@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Grid, Form } from "semantic-ui-react";
+import { Button, Grid, Form, Dropdown } from "semantic-ui-react";
 
 export default class Face extends React.Component {
   constructor(props) {
@@ -59,7 +59,7 @@ export default class Face extends React.Component {
                 fluid
                 options={this.state.person_group_list}
                 value={this.state.person_group_id}
-                onChange={() => {
+                onChange={(event, data) => {
                   this.setState({ person_group_id: data.value });
                 }}
               />
