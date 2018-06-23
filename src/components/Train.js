@@ -15,6 +15,24 @@ export default class Train extends React.Component {
     this.onClickDelete = this.onClickDelete.bind(this);
   }
 
+  componentDidMount() {
+    fetch("http://127.0.0.1:5000/person_group_list")
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        let list = new Array();
+        data.forEach(obj => {
+          let text = obj.personGroupId;
+          list.push({ text: text, value: text });
+        });
+
+        this.setState({
+          person_group_list: list
+        });
+      });
+  }
+
   async onClickTrain() {
     const response = await fetch("http://127.0.0.1:5000/person_group", {
       method: "POST",
