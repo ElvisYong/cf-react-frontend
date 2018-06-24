@@ -54,12 +54,13 @@ export default class Face extends React.Component {
     const content = await response.json();
     console.log(content);
     if (content) {
-      alert("Picture taken, you are: " + content);
+      alert("Picture taken, you are: " + content.name);
       this.setState({
         imageUrl: content.imageUrl,
         showImage: true
       });
     }
+    alert("Something went wrong");
   }
 
   render() {
