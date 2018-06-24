@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
-import Person from "./Person";
-import PersonGroup from "./PersonGroup";
 
 export default class NavigationBar extends React.Component {
   constructor(props) {
@@ -61,6 +59,15 @@ export default class NavigationBar extends React.Component {
             onClick={this.handleChange}
           >
           Scan face
+          </Menu.Item>
+        </Link>
+        <Link to="/uploaded_images">
+          <Menu.Item
+            name="image"
+            active={this.state.activeItem === "image"}
+            onClick={this.handleChange}
+          >
+          History
           </Menu.Item>
         </Link>
       </Menu>
