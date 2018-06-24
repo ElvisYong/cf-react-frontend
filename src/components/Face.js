@@ -1,13 +1,22 @@
 import React from "react";
 import { Button, Grid, Form, Dropdown } from "semantic-ui-react";
 
+const RenderImage = props => {
+  if (!props.show) {
+    return null;
+  }
+  return <img src={props.url} />;
+};
+
 export default class Face extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       person_group_list: [],
-      person_group_id: ""
+      person_group_id: "",
+      showImage: false,
+      imageUrl: ""
     };
 
     this.onClickHandler = this.onClickHandler.bind(this);
@@ -43,8 +52,13 @@ export default class Face extends React.Component {
     });
 
     const content = await response.json();
+    console.log(content);
     if (content) {
       alert("Picture taken, you are: " + content);
+      this.setState({
+        imageUrl: content.imageUrl,
+        showImage: true
+      });
     }
   }
 
@@ -75,6 +89,7 @@ export default class Face extends React.Component {
               </Button>
             </Form.Field>
           </Form>
+          <RenderImage show={this.state.showImage} url={this.state.imageUrl} />
         </Grid.Column>
       </Grid>
     );
