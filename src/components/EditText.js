@@ -20,9 +20,9 @@ export default class EditText extends React.Component {
     const response = await fetch("http://127.0.0.1:5000/lcd", {
       method: "POST",
       "Content-Type": "application/json",
-      body: {
+      body: JSON.stringify({
         text: this.state.text
-      }
+      })
     });
   }
 
