@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Grid, Form, Dropdown } from "semantic-ui-react";
+import { Button, Grid, Form, Dropdown, Divider } from "semantic-ui-react";
+import EditText from "./EditText";
 
 const RenderImage = props => {
   if (!props.show) {
@@ -88,6 +89,13 @@ export default class Face extends React.Component {
               <Button color="teal" onClick={this.onClickHandler}>
                 TAKE PHOTO
               </Button>
+            </Form.Field>
+          </Form>
+          <Divider/>
+          <Form>
+            <Form.Field>
+              <label>Edit the lcd</label>
+              <EditText/>
             </Form.Field>
           </Form>
           <RenderImage show={this.state.showImage} url={this.state.imageUrl} />
