@@ -16,11 +16,13 @@ export default class EditText extends React.Component {
     await this.setState({
       text: event.target.value
     });
-    console.log(this.state.text)
+    console.log(this.state.text);
     const response = await fetch("http://127.0.0.1:5000/lcd", {
       method: "POST",
-      'Content-Type': 'application/json',
-      body: this.state.text
+      "Content-Type": "application/json",
+      body: {
+        text: this.state.text
+      }
     });
   }
 
