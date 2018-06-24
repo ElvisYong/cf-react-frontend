@@ -2,11 +2,7 @@ import React from "react";
 import {
   Grid,
   Form,
-  Dropdown,
   Button,
-  Segment,
-  Divider,
-  Label
 } from "semantic-ui-react";
 
 export default class PersonGroup extends React.Component {
