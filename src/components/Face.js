@@ -1,5 +1,13 @@
 import React from "react";
-import { Button, Grid, Form, Dropdown, Divider } from "semantic-ui-react";
+import {
+  Button,
+  Grid,
+  Form,
+  Dropdown,
+  Divider,
+  Message,
+  Icon
+} from "semantic-ui-react";
 import EditText from "./EditText";
 import UriBase from "../HostUrl";
 
@@ -10,6 +18,29 @@ const RenderImage = props => {
   return <img src={props.url} />;
 };
 
+const LoadingIcon = props =>{
+  if(props.isLoading){
+    return <Icon name="circle notched" loading />
+  }
+  return null
+}
+
+const HiddenMessage = props => {
+  if (!props.hidden) {
+    if (props.isLoading) {
+      return (
+        <Message icon>
+          <LoadingIcon isLoading={props.isLoading}/>
+          <Message.Content>
+            Hello {props.name}! Confidence level is : {props.confidence}
+          </Message.Content>
+        </Message>
+      );
+    }
+  }
+  return null;
+};
+
 export default class Face extends React.Component {
   constructor(props) {
     super(props);
@@ -18,7 +49,10 @@ export default class Face extends React.Component {
       person_group_list: [],
       person_group_id: "",
       showImage: false,
-      imageUrl: ""
+      hiddenMessage: true,
+      isLoading: false,
+      imageUrl: "",
+      confidence: ""
     };
 
     this.onClickHandler = this.onClickHandler.bind(this);
@@ -43,6 +77,10 @@ export default class Face extends React.Component {
   }
 
   async onClickHandler() {
+    await this.setState(prevState => ({
+      hiddenMessage: !prevState.hiddenMessage,
+      isLoading: !prevState.isLoading,
+    }));
     const response = await fetch(UriBase + "/face", {
       method: "POST",
       headers: {
@@ -57,12 +95,13 @@ export default class Face extends React.Component {
     console.log(content);
     if (content) {
       alert("Picture taken, you are: " + content.name);
-      this.setState({
+      this.setState(prevState => ({
         imageUrl: content.imageUrl,
-        showImage: true
-      });
+        showImage: true,
+        confidence: content.confidence,
+        isLoading: !prevState.isLoading
+      }));
     }
-    alert("Something went wrong");
   }
 
   render() {
@@ -92,14 +131,26 @@ export default class Face extends React.Component {
               </Button>
             </Form.Field>
           </Form>
-          <Divider/>
+          <Divider />
           <Form>
             <Form.Field>
               <label>Edit the lcd</label>
-              <EditText/>
+              <EditText />
             </Form.Field>
           </Form>
-          <RenderImage show={this.state.showImage} url={this.state.imageUrl} />
+          <Grid.Column>
+            <HiddenMessage
+              hidden={this.state.hiddenMessage}
+              name={this.state.name}
+              confidence={this.state.confidence}
+            />
+          </Grid.Column>
+          <Grid.Column>
+            <RenderImage
+              show={this.state.showImage}
+              url={this.state.imageUrl}
+            />
+          </Grid.Column>
         </Grid.Column>
       </Grid>
     );

@@ -4,6 +4,7 @@ import {
   Form,
   Button,
 } from "semantic-ui-react";
+import UriBase from "../HostUrl";
 
 export default class PersonGroup extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ export default class PersonGroup extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://127.0.0.1:5000/person_group_list")
+    fetch(UriBase + "/person_group_list")
       .then(response => {
         return response.json();
       })
@@ -47,7 +48,7 @@ export default class PersonGroup extends React.Component {
   };
 
   async handleCreateSubmit() {
-    const response = await fetch("http://127.0.0.1:5000/person_group", {
+    const response = await fetch(UriBase + "/person_group", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
