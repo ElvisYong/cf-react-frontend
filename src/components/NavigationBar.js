@@ -67,7 +67,16 @@ export default class NavigationBar extends React.Component {
             active={this.state.activeItem === "image"}
             onClick={this.handleChange}
           >
-          History
+          Gallery
+          </Menu.Item>
+        </Link>
+        <Link to="/graph">
+          <Menu.Item
+            name="graph"
+            active={this.state.activeItem === "graph"}
+            onClick={this.handleChange}
+          >
+          Graph
           </Menu.Item>
         </Link>
       </Menu>

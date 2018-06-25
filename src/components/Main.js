@@ -5,6 +5,7 @@ import PersonGroup from "./PersonGroup";
 import Face from "./Face";
 import Train from "./Train";
 import UploadedImages from "./UploadedImages";
+import Graph from "./Graph"
 
 const Main = () => {
   return (
@@ -15,6 +16,7 @@ const Main = () => {
         <Route path="/face" component={Face} />
         <Route path="/train" component={Train} />
         <Route path="/uploaded_images" component={UploadedImages}/>
+        <Route path="/graph" component={Graph}/>
       </Switch>
     </main>
   );
