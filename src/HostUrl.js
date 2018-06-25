@@ -1,3 +1,3 @@
-const UriBase = '10.10.10.50/5000'
+const UriBase = "http://10.10.10.59:5000"
 
 export default UriBase;
