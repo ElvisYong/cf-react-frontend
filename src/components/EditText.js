@@ -1,5 +1,6 @@
 import React from "react";
 import { Input } from "semantic-ui-react";
+import UriBase from "../HostUrl";
 
 export default class EditText extends React.Component {
   constructor(props) {
@@ -20,9 +21,9 @@ export default class EditText extends React.Component {
     let formData = new FormData();
     formData.append("text", this.state.text);
 
-    const response = await fetch("http://127.0.0.1:5000/lcd", {
-        method: "POST",
-        body: formData
+    const response = await fetch(UriBase + "/lcd", {
+      method: "POST",
+      body: formData
     });
   }
 

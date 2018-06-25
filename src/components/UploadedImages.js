@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, Grid } from "semantic-ui-react";
+import UriBase from "../HostUrl";
 
 export default class UploadedImages extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ export default class UploadedImages extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://127.0.0.1:5000/all_image")
+    fetch(UriBase + "/all_image")
       .then(response => {
         return response.json();
       })

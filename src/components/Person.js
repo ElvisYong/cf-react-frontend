@@ -7,6 +7,7 @@ import {
   Button,
   Divider
 } from "semantic-ui-react";
+import UriBase from "../HostUrl";
 
 export default class Person extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ export default class Person extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://127.0.0.1:5000/person_group_list")
+    fetch(UriBase + "/person_group_list")
       .then(response => {
         return response.json();
       })
@@ -59,7 +60,7 @@ export default class Person extends React.Component {
     await this.setState({ person_group_id_delete: data.value });
 
     const response = await fetch(
-      "http://127.0.0.1:5000/person_list/" + this.state.person_group_id_delete
+      UriBase + "/person_list/" + this.state.person_group_id_delete
     );
     response.json().then(responseData => {
       let list = new Array();
@@ -78,7 +79,7 @@ export default class Person extends React.Component {
     await this.setState({ person_group_id_upload: data.value });
 
     const response = await fetch(
-      "http://127.0.0.1:5000/person_list/" + this.state.person_group_id_upload
+      UriBase + "/person_list/" + this.state.person_group_id_upload
     );
     response.json().then(responseData => {
       let list = new Array();
@@ -94,7 +95,7 @@ export default class Person extends React.Component {
   }
 
   async createPersonHandler(event) {
-    const response = await fetch("http://127.0.0.1:5000/person", {
+    const response = await fetch(UriBase + "/person", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -123,7 +124,7 @@ export default class Person extends React.Component {
     formData.append("person_group_id", this.state.person_group_id_upload);
     formData.append("person_id", this.state.person_id_upload);
 
-    const response = await fetch("http://127.0.0.1:5000/person", {
+    const response = await fetch(UriBase + "/person", {
       method: "POST",
       body: formData
     });
@@ -136,7 +137,7 @@ export default class Person extends React.Component {
     formData.append("person_group_id", this.state.person_group_id_upload);
     formData.append("person_id", this.state.person_id_upload);
 
-    const response = await fetch("http://127.0.0.1:5000/person_pi", {
+    const response = await fetch(UriBase + "/person_pi", {
       method: "POST",
       body: formData
     });
@@ -154,7 +155,7 @@ export default class Person extends React.Component {
   // }
 
   async deletePersonHandler(event) {
-    const response = await fetch("http://127.0.0.1:5000/person", {
+    const response = await fetch(UriBase + "/person", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"

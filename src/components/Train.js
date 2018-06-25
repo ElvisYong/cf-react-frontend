@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Grid, Form, Dropdown } from "semantic-ui-react";
+import UriBase from "../HostUrl";
 
 export default class Train extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ export default class Train extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://127.0.0.1:5000/person_group_list")
+    fetch(UriBase + "/person_group_list")
       .then(response => {
         return response.json();
       })
@@ -34,7 +35,7 @@ export default class Train extends React.Component {
   }
 
   async onClickTrain() {
-    const response = await fetch("http://127.0.0.1:5000/person_group", {
+    const response = await fetch(UriBase + "/person_group", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -50,7 +51,7 @@ export default class Train extends React.Component {
   }
 
   async onClickStatus() {
-    const response = await fetch("http://127.0.0.1:5000/status", {
+    const response = await fetch(UriBase + "/status", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -64,7 +65,7 @@ export default class Train extends React.Component {
   }
 
   async onClickDelete() {
-    const reposne = await fetch("http://127.0.0.1:5000/status", {
+    const reposne = await fetch(UriBase + "/status", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"

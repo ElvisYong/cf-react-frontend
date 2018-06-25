@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Grid, Form, Dropdown, Divider } from "semantic-ui-react";
 import EditText from "./EditText";
+import UriBase from "../HostUrl";
 
 const RenderImage = props => {
   if (!props.show) {
@@ -24,7 +25,7 @@ export default class Face extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://127.0.0.1:5000/person_group_list")
+    fetch(UriBase + "/person_group_list")
       .then(response => {
         return response.json();
       })
@@ -42,7 +43,7 @@ export default class Face extends React.Component {
   }
 
   async onClickHandler() {
-    const response = await fetch("http://127.0.0.1:5000/face", {
+    const response = await fetch(UriBase + "/face", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
