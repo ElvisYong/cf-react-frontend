@@ -43,7 +43,7 @@ export default class Graph extends React.Component {
   }
   async onChangeHandler(event, data) {
     await this.setState({
-      person_group_id: data
+      person_group_id: data.value
     });
 
     const response = await fetch(

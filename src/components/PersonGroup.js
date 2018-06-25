@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Grid,
-  Form,
-  Button,
-} from "semantic-ui-react";
+import { Grid, Form, Button } from "semantic-ui-react";
 import UriBase from "../HostUrl";
 
 export default class PersonGroup extends React.Component {
