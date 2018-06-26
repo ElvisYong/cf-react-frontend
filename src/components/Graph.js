@@ -84,7 +84,7 @@ export default class Graph extends React.Component {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="registered_faces" />
+            <Bar dataKey="registered_faces" color="#008080"/>
           </BarChart>
         </Grid.Column>
       </Grid>
