@@ -44,11 +44,12 @@ export default class PersonGroup extends React.Component {
   };
 
   async handleCreateSubmit() {
+    formData = new FormData();
+    formData.append("person_group_id", this.state.newGroupId);
+    formData.append("name", this.state.newGroupName);
+    formData.append("user_data", this.state.newGroupData);
     const response = await fetch(UriBase + "/person_group", {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
       body: JSON.stringify({
         person_group_id: this.state.newGroupId,
         name: this.state.newGroupName,

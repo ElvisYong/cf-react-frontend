@@ -176,6 +176,7 @@ export default class Person extends React.Component {
           <Form>
             <label>Create person</label>
             <Form.Field>
+              <label>Select your person group</label>
               <Dropdown
                 placeholder="Select person group"
                 search
