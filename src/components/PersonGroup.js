@@ -50,11 +50,7 @@ export default class PersonGroup extends React.Component {
     formData.append("user_data", this.state.newGroupData);
     const response = await fetch(UriBase + "/person_group", {
       method: "PUT",
-      body: JSON.stringify({
-        person_group_id: this.state.newGroupId,
-        name: this.state.newGroupName,
-        user_data: this.state.newGroupData
-      })
+      body: formData
     });
     const content = await response.json();
     if (content) {
