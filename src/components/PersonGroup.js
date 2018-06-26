@@ -44,7 +44,7 @@ export default class PersonGroup extends React.Component {
   };
 
   async handleCreateSubmit() {
-    formData = new FormData();
+    let formData = new FormData();
     formData.append("person_group_id", this.state.newGroupId);
     formData.append("name", this.state.newGroupName);
     formData.append("user_data", this.state.newGroupData);
