@@ -1,6 +1,6 @@
-import React from "react";
-import { Grid, Form, Button } from "semantic-ui-react";
-import UriBase from "../HostUrl";
+import React from 'react';
+import { Grid, Form, Button } from 'semantic-ui-react';
+import UriBase from '../HostUrl';
 
 export default class PersonGroup extends React.Component {
   constructor(props) {
@@ -8,17 +8,17 @@ export default class PersonGroup extends React.Component {
 
     this.state = {
       person_group_list: [],
-      selectedGroup: "",
-      newGroupId: "",
-      newGroupName: "",
-      newGroupData: ""
+      selectedGroup: '',
+      newGroupId: '',
+      newGroupName: '',
+      newGroupData: '',
     };
 
     this.handleCreateSubmit = this.handleCreateSubmit.bind(this);
   }
 
   componentDidMount() {
-    fetch(UriBase + "/person_group_list")
+    fetch(UriBase + '/person-group-list')
       .then(response => {
         return response.json();
       })
@@ -30,8 +30,11 @@ export default class PersonGroup extends React.Component {
         });
 
         this.setState({
-          person_group_list: list
+          person_group_list: list,
         });
+      })
+      .catch(error => {
+        console.log(error);
       });
   }
 
@@ -39,22 +42,22 @@ export default class PersonGroup extends React.Component {
     const name = event.target.name;
 
     this.setState({
-      [name]: event.target.value
+      [name]: event.target.value,
     });
   };
 
   async handleCreateSubmit() {
     let formData = new FormData();
-    formData.append("person_group_id", this.state.newGroupId);
-    formData.append("name", this.state.newGroupName);
-    formData.append("user_data", this.state.newGroupData);
-    const response = await fetch(UriBase + "/person_group", {
-      method: "PUT",
-      body: formData
+    formData.append('person_group_id', this.state.newGroupId);
+    formData.append('name', this.state.newGroupName);
+    formData.append('user_data', this.state.newGroupData);
+    const response = await fetch(UriBase + '/person-group', {
+      method: 'PUT',
+      body: formData,
     });
     const content = await response.json();
     if (content) {
-      alert("Created group");
+      alert('Created group');
     }
   }
 

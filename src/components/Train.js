@@ -17,7 +17,7 @@ export default class Train extends React.Component {
   }
 
   componentDidMount() {
-    fetch(UriBase + "/person_group_list")
+    fetch(UriBase + "/person-group-list")
       .then(response => {
         return response.json();
       })
@@ -35,7 +35,7 @@ export default class Train extends React.Component {
   }
 
   async onClickTrain() {
-    const response = await fetch(UriBase + "/person_group", {
+    const response = await fetch(UriBase + "/person-group", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -44,22 +44,16 @@ export default class Train extends React.Component {
         person_group_id: this.state.selectedGroup
       })
     });
-    const content = await response.json();
-    if (content) {
-      alert(content.status);
+    if (response.status === 200) {
+      alert('Training');
+    }
+    else{
+      alert('Training failed');
     }
   }
 
   async onClickStatus() {
-    const response = await fetch(UriBase + "/status", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        person_group_id: this.state.selectedGroup
-      })
-    });
+    const response = await fetch(UriBase + "/status/" + this.state.selectedGroup);
     const content = await response.json();
     alert("Data training is " + content.status);
   }

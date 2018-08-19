@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import {
   Grid,
   Input,
   Form,
   Dropdown,
   Button,
-  Divider
-} from "semantic-ui-react";
-import UriBase from "../HostUrl";
+  Divider,
+} from 'semantic-ui-react';
+import UriBase from '../HostUrl';
 
 export default class Person extends React.Component {
   constructor(props) {
@@ -15,14 +15,14 @@ export default class Person extends React.Component {
 
     this.state = {
       person_group_list: [],
-      person_group_id_create: "",
-      person_group_id_upload: "",
-      person_group_id_delete: "",
-      personName: "",
-      person_id_upload: "",
-      person_id_delete: "",
+      person_group_id_create: '',
+      person_group_id_upload: '',
+      person_group_id_delete: '',
+      personName: '',
+      person_id_upload: '',
+      person_id_delete: '',
       selectedFile: null,
-      person_list: []
+      person_list: [],
     };
 
     this.fileUploadHandler = this.fileUploadHandler.bind(this);
@@ -31,16 +31,17 @@ export default class Person extends React.Component {
     this.createPersonHandler = this.createPersonHandler.bind(this);
     this.deletePersonHandler = this.deletePersonHandler.bind(this);
     this.uploadPersonGroupChangeHandler = this.uploadPersonGroupChangeHandler.bind(
-      this
+      this,
     );
     this.deletePersonGroupChangeHandler = this.deletePersonGroupChangeHandler.bind(
-      this
+      this,
     );
   }
 
   componentDidMount() {
-    fetch(UriBase + "/person_group_list")
+    fetch(UriBase + '/person-group-list')
       .then(response => {
+        console.log(response);
         return response.json();
       })
       .then(data => {
@@ -51,8 +52,11 @@ export default class Person extends React.Component {
         });
 
         this.setState({
-          person_group_list: list
+          person_group_list: list,
         });
+      })
+      .catch(error => {
+        console.log(error);
       });
   }
 
@@ -60,7 +64,7 @@ export default class Person extends React.Component {
     await this.setState({ person_group_id_delete: data.value });
 
     const response = await fetch(
-      UriBase + "/person_list/" + this.state.person_group_id_delete
+      UriBase + '/person-list/' + this.state.person_group_id_delete,
     );
     response.json().then(responseData => {
       let list = new Array();
@@ -70,7 +74,7 @@ export default class Person extends React.Component {
         list.push({ text: text, value: value });
       });
       this.setState({
-        person_list: list
+        person_list: list,
       });
     });
   }
@@ -79,7 +83,7 @@ export default class Person extends React.Component {
     await this.setState({ person_group_id_upload: data.value });
 
     const response = await fetch(
-      UriBase + "/person_list/" + this.state.person_group_id_upload
+      UriBase + '/person-list/' + this.state.person_group_id_upload,
     );
     response.json().then(responseData => {
       let list = new Array();
@@ -89,57 +93,60 @@ export default class Person extends React.Component {
         list.push({ text: text, value: value });
       });
       this.setState({
-        person_list: list
+        person_list: list,
       });
     });
   }
 
   async createPersonHandler(event) {
-    const response = await fetch(UriBase + "/person", {
-      method: "PUT",
+    const response = await fetch(UriBase + '/person', {
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         person_group_id: this.state.person_group_id_create,
-        name: this.state.personName
-      })
+        name: this.state.personName,
+      }),
     });
     const content = await response.json();
     if (content) {
-      alert("Created, your id is " + content.personId);
+      alert('Created, your id is ' + content.personId);
     }
   }
 
   fileChangedHandler = event => {
     this.setState({
       selectedFile: event.target.files[0],
-      selectedFileName: event.target.value
+      selectedFileName: event.target.value,
     });
   };
 
   async fileUploadHandler() {
     let formData = new FormData();
-    formData.append("file", this.state.selectedFile);
-    formData.append("person_group_id", this.state.person_group_id_upload);
-    formData.append("person_id", this.state.person_id_upload);
+    formData.append('file', this.state.selectedFile);
+    formData.append('person_group_id', this.state.person_group_id_upload);
+    formData.append('person_id', this.state.person_id_upload);
 
-    const response = await fetch(UriBase + "/person", {
-      method: "POST",
-      body: formData
+    const response = await fetch(UriBase + '/person', {
+      method: 'POST',
+      body: formData,
     });
-    const content = await response.json();
-    alert(content);
+    if (response.status === 200) {
+      alert('Uploaded');
+    } else {
+      alert('Failed to upload');
+    }
   }
 
   async piCamUploadHandler() {
     let formData = new FormData();
-    formData.append("person_group_id", this.state.person_group_id_upload);
-    formData.append("person_id", this.state.person_id_upload);
+    formData.append('person_group_id', this.state.person_group_id_upload);
+    formData.append('person_id', this.state.person_id_upload);
 
-    const response = await fetch(UriBase + "/person_pi", {
-      method: "POST",
-      body: formData
+    const response = await fetch(UriBase + '/person_pi', {
+      method: 'POST',
+      body: formData,
     });
     const content = await response.json();
     alert(content);
@@ -155,18 +162,21 @@ export default class Person extends React.Component {
   // }
 
   async deletePersonHandler(event) {
-    const response = await fetch(UriBase + "/person", {
-      method: "DELETE",
+    const response = await fetch(UriBase + '/person', {
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         person_group_id: this.state.person_group_id_delete,
-        person_id: this.state.person_id_delete
-      })
+        person_id: this.state.person_id_delete,
+      }),
     });
-    const content = await response.json();
-    return content;
+    if (response.status === 200) {
+      alert('Deleted');
+    } else {
+      alert('Failed to delete');
+    }
   }
 
   render() {
@@ -186,7 +196,7 @@ export default class Person extends React.Component {
                 value={this.state.person_group_id_create}
                 onChange={(event, data) => {
                   this.setState({
-                    person_group_id_create: data.value
+                    person_group_id_create: data.value,
                   });
                 }}
               />
@@ -201,9 +211,9 @@ export default class Person extends React.Component {
                   this.setState({ personName: event.target.value });
                 }}
                 action={{
-                  content: "Create",
-                  color: "teal",
-                  onClick: this.createPersonHandler
+                  content: 'Create',
+                  color: 'teal',
+                  onClick: this.createPersonHandler,
                 }}
               />
             </Form.Field>
@@ -242,9 +252,9 @@ export default class Person extends React.Component {
                 fluid
                 onChange={this.fileChangedHandler}
                 action={{
-                  content: "Upload",
-                  color: "teal",
-                  onClick: this.fileUploadHandler
+                  content: 'Upload',
+                  color: 'teal',
+                  onClick: this.fileUploadHandler,
                 }}
               />
             </Form.Field>

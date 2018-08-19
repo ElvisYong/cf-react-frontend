@@ -59,12 +59,12 @@ export default class Face extends React.Component {
   }
 
   componentDidMount() {
-    fetch(UriBase + "/person_group_list")
+    fetch(UriBase + "/person-group-list")
       .then(response => {
         return response.json();
       })
       .then(data => {
-        let list = new Array();
+        let list = [];
         data.forEach(obj => {
           let text = obj.personGroupId;
           list.push({ text: text, value: text });

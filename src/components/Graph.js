@@ -25,7 +25,7 @@ export default class Graph extends React.Component {
   }
 
   componentDidMount() {
-    fetch(UriBase + "/person_group_list")
+    fetch(UriBase + "/person-group-list")
       .then(response => {
         return response.json();
       })
