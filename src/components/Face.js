@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Button,
   Grid,
@@ -6,10 +6,10 @@ import {
   Dropdown,
   Divider,
   Message,
-  Icon
-} from "semantic-ui-react";
-import EditText from "./EditText";
-import UriBase from "../HostUrl";
+  Icon,
+} from 'semantic-ui-react';
+import EditText from './EditText';
+import UriBase from '../HostUrl';
 
 const RenderImage = props => {
   if (!props.show) {
@@ -18,19 +18,19 @@ const RenderImage = props => {
   return <img src={props.url} />;
 };
 
-const LoadingIcon = props =>{
-  if(props.isLoading){
-    return <Icon name="circle notched" loading />
+const LoadingIcon = props => {
+  if (props.isLoading) {
+    return <Icon name="circle notched" loading />;
   }
-  return null
-}
+  return null;
+};
 
 const HiddenMessage = props => {
   if (!props.hidden) {
     if (props.isLoading) {
       return (
         <Message icon>
-          <LoadingIcon isLoading={props.isLoading}/>
+          <LoadingIcon isLoading={props.isLoading} />
           <Message.Content>
             Hello {props.name}! Confidence level is : {props.confidence}
           </Message.Content>
@@ -47,19 +47,19 @@ export default class Face extends React.Component {
 
     this.state = {
       person_group_list: [],
-      person_group_id: "",
+      person_group_id: '',
       showImage: false,
       hiddenMessage: true,
       isLoading: false,
-      imageUrl: "",
-      confidence: ""
+      imageUrl: '',
+      confidence: '',
     };
 
     this.onClickHandler = this.onClickHandler.bind(this);
   }
 
   componentDidMount() {
-    fetch(UriBase + "/person-group-list")
+    fetch(UriBase + '/person-group-list')
       .then(response => {
         return response.json();
       })
@@ -71,7 +71,7 @@ export default class Face extends React.Component {
         });
 
         this.setState({
-          person_group_list: list
+          person_group_list: list,
         });
       });
   }
@@ -81,25 +81,25 @@ export default class Face extends React.Component {
       hiddenMessage: !prevState.hiddenMessage,
       isLoading: !prevState.isLoading,
     }));
-    const response = await fetch(UriBase + "/face", {
-      method: "POST",
+    const response = await fetch(UriBase + '/face', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        person_group_id: this.state.person_group_id
-      })
+        person_group_id: this.state.person_group_id,
+      }),
     });
 
     const content = await response.json();
-    console.log(content);
+    this.setState({ imageUrl: content.imageUrl });
     if (content) {
-      alert("Picture taken, you are: " + content.name);
+      alert('Picture taken, you are: ' + content.name);
       this.setState(prevState => ({
         imageUrl: content.imageUrl,
         showImage: true,
         confidence: content.confidence,
-        isLoading: !prevState.isLoading
+        isLoading: !prevState.isLoading,
       }));
     }
   }
@@ -120,7 +120,7 @@ export default class Face extends React.Component {
                 value={this.state.person_group_id}
                 onChange={(event, data) => {
                   this.setState({
-                    person_group_id: data.value
+                    person_group_id: data.value,
                   });
                 }}
               />

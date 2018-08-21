@@ -144,12 +144,16 @@ export default class Person extends React.Component {
     formData.append('person_group_id', this.state.person_group_id_upload);
     formData.append('person_id', this.state.person_id_upload);
 
-    const response = await fetch(UriBase + '/person_pi', {
+    const response = await fetch(UriBase + '/person-pi', {
       method: 'POST',
       body: formData,
     });
-    const content = await response.json();
-    alert(content);
+    if(response === 200){
+      alert('Picture uploaded');
+    }
+    else{
+      alert('Face not dectected in face')
+    }
   }
 
   // upload directory if theres time

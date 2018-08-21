@@ -61,15 +61,6 @@ export default class NavigationBar extends React.Component {
           Scan face
           </Menu.Item>
         </Link>
-        <Link to="/uploaded_images">
-          <Menu.Item
-            name="image"
-            active={this.state.activeItem === "image"}
-            onClick={this.handleChange}
-          >
-          Gallery
-          </Menu.Item>
-        </Link>
         <Link to="/graph">
           <Menu.Item
             name="graph"
